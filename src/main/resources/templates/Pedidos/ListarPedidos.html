@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+ <head>
+<meta charset="UTF-8">
+<title>ListarPratos</title>
+<link rel="stylesheet" type="text/css" href="/css/materialize.min.css"/>
+</head>
+
+<body >
+	  <nav>
+    <div class="nav-wrapper">
+      <a href="#" class="brand-logo right">Queijo Brabo</a>
+      <ul id="nav-mobile" class="left hide-on-med-and-down">
+        <li> <a href="/gerente/listar">Listar Pratos</a></li>
+        <li ><a sec:authorize="isAuthenticated()" href="/pedido/listar">Ver Pedidos</a></li>
+        <li><a sec:authorize=" hasRole('ROLE_USER') "href="/carrinho/listar">Ver Carrinho</a></li>
+        <li><a sec:authorize="!isAuthenticated()" href="/cliente/cadastrar">Fazer Cadastro</a></li>
+        <li><a sec:authorize="!isAuthenticated()" href="/login">Logar</a></li>
+        <li><a sec:authorize="isAuthenticated()" href="/logout">Logout</a></li>
+      </ul>
+    </div>
+  </nav>
+<table class="table">
+  <thead >
+    <tr >
+      <th scope="row">Codigo</th>
+      <th scope="col">Preço Total</th>
+      <th scope="col">Cliente</th>
+      <th scope="col"></th>
+     
+    </tr>
+  </thead>
+ 	  <tbody class="p-3 mb-2 bg-info text-white">
+	    <tr th:each = "pedido: ${pedidos}">
+	      <td th:text = "${pedido.idPedido}"></td>     
+	      <td th:text = "${pedido.total}"></td>
+	      <td th:text = "${pedido.cliente.getEmail()}"></td>
+	      <td> <a th:href="@{/pedido/listaritens/{idPedido}(idPedido = ${pedido.idPedido})}"> <button type="button" class="btn btn-primary">Ver Itens</button> </a> </td>
+	   		
+	    </tr>
+	  </tbody>
+
+</table>
+	 <a href="/gerente/listar"><button class ="btn btn-secondary float-right">Listar Pratos</button></a>
+
+ 
+
+
+<script src ="/js/materialize.min.js"></script>
+
+</body>
+</html>

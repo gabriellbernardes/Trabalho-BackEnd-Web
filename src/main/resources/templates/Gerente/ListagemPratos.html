@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+<meta charset="UTF-8">
+<title>ListarPratos</title>
+<link rel="stylesheet" type="text/css" href="/css/materialize.min.css"/>
+</head>
+
+<body >
+		  <nav>
+    <div class="nav-wrapper">
+      <a href="#" class="brand-logo right">Queijo Brabo</a>
+      <ul id="nav-mobile" class="left hide-on-med-and-down">
+        <li> <a href="/gerente/listar">Listar Pratos</a></li>
+        <li ><a sec:authorize="isAuthenticated()" href="/pedido/listar">Ver Pedidos</a></li>
+        <li><a sec:authorize=" hasRole('ROLE_USER') "href="/carrinho/listar">Ver Carrinho</a></li>
+        <li><a sec:authorize="!isAuthenticated()" href="/cliente/cadastrar">Fazer Cadastro</a></li>
+        <li><a sec:authorize="!isAuthenticated()" href="/login">Logar</a></li>
+        <li><a sec:authorize="isAuthenticated()" href="/logout">Logout</a></li>
+      </ul>
+    </div>
+  </nav>
+		
+<table class="table">
+  <thead >
+    <tr >
+      <th scope="row">Codigo</th>
+      <th scope="col">Nome</th>
+      <th scope="col">Preco</th>
+      <th scope="col">Imagem</th>
+     
+    </tr>
+  </thead>
+ 	  <tbody class="p-3 mb-2 bg-info text-white">
+	    <tr th:each = "prato: ${listaPratos}">
+	      <td th:text = "${prato.codigo}"></td>     
+	      <td th:text = "${prato.nome}"></td>
+	      <td th:text = "${prato.preco}"></td>
+	      <td><img  width ="200" height="200"class="rounded-pill" th:src ="@{'/imagens/'+${prato.nome}+.png}"/></td>
+	      <td sec:authorize=" hasRole('ROLE_ADMIN')"> <a th:href ="@{/gerente/excluir/{codigo}(codigo=${prato.codigo})}"><button type="button" class="btn btn-danger">Excluir</button></a> 
+	      <td sec:authorize=" hasRole('ROLE_ADMIN')" > <a th:href="@{/gerente/atualizar/{codigo}(codigo = ${prato.codigo})}"> <button type="button" class="btn btn-primary">Atualizar</button> </a> </td>
+	   	  <td sec:authorize=" hasRole('ROLE_USER')" > <a  th:href="@{/carrinho/adicionar/{codigo}(codigo = ${prato.codigo})}"> <button type="button" class="btn btn-primary">Adicionar no Carrinho</button> </a> </td>
+	   	  <td sec:authorize="!isAuthenticated()" > <a  th:href="@{/cliente/cadastrar}"> <button type="button" class="btn btn-primary">Adicionar no Carrinho</button> </a> </td>
+	   		
+	    </tr>
+	  </tbody>
+
+</table>
+
+ 	  <a sec:authorize=" hasRole('ROLE_ADMIN')" href="/gerente/adicionar"><button class ="btn btn-secondary float-right">Adicionar Novo Prato</button></a>
+	  <a sec:authorize=" hasRole('ROLE_USER')" href="/pedido/listar"><button class ="btn btn-secondary float-left">Ir para listagem de pedidos</button></a>
+	
+ 
+
+
+<script src ="/js/materialize.min.js"></script>
+
+</body>
+</html>

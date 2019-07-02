@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+  <head>
+      <!--Import Google Icon Font-->
+      <!--Import materialize.css-->
+	  <link type="text/css" rel="stylesheet" href="/css/materialize.min.css"  media="screen,projection"/>
+	  <link type="text/css" rel="stylesheet" href="/css/icon.css"  media="screen,projection"/>
+      <!--Let browser know website is optimized for mobile-->
+      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+      <title>Login</title>
+    </head>
+<body>
+  <nav>
+    <div class="nav-wrapper">
+      <a href="#" class="brand-logo right">Queijo Brabo</a>
+      <ul id="nav-mobile" class="left hide-on-med-and-down">
+        <li> <a href="/gerente/listar">Listar Pratos</a></li>
+        <li ><a sec:authorize="isAuthenticated()" href="/pedido/listar">Ver Pedidos</a></li>
+        <li><a sec:authorize=" hasRole('ROLE_USER') "href="/carrinho/listar">Ver Carrinho</a></li>
+        <li><a sec:authorize="!isAuthenticated()" href="/cliente/cadastrar">Fazer Cadastro</a></li>
+        <li><a sec:authorize="!isAuthenticated()" href="/login">Logar</a></li>
+        <li><a sec:authorize="isAuthenticated()" href="/logout">Logout</a></li>
+      </ul>
+    </div>
+  </nav>
+
+<div class="row">
+    <form class="col s12" method="post">
+      <div class="row">
+        <div class="input-field col s6">
+          <i class="material-icons prefix">account_circle</i>
+          <input id="icon_prefix" type="text" class="validate" name = "username">
+          <label for="icon_prefix">Login</label>
+        </div>
+        <div class="input-field col s6">
+          <i class="material-icons prefix">security</i>
+          <input id="icon_security" type="password" class="validate" name ="password">
+          <label for="icon_security">Password</label>
+        </div>
+      </div>
+      <input type="submit" value="logar">
+    </form>
+  </div>
+	
+		<div class="navbar">
+      		<a class="file-field input-field" href="/">Queijo Brabo</a>
+    	</div>
+		
+  
+     <!--JavaScript at end of body for optimized loading-->
+      <script type="text/javascript" src="/js/jquery.min.js"></script>
+       <script type="text/javascript" src="/js/jquery.mask.js"></script>
+       <script type="text/javascript" src="/js/materialize.min.js"></script>
+
+</body>
+
+</html>

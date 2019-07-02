@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+ <head>
+<meta charset="UTF-8">
+<title>Pagina Gerente</title>
+<link rel="stylesheet" type="text/css" href="/css/materialize.min.css"/>
+
+</head>
+<body>
+	 <nav>
+    <div class="nav-wrapper">
+      <a href="#" class="brand-logo right">Queijo Brabo</a>
+      <ul id="nav-mobile" class="left hide-on-med-and-down">
+        <li> <a href="/gerente/listar">Listar Pratos</a></li>
+        <li ><a sec:authorize="isAuthenticated()" href="/pedido/listar">Ver Pedidos</a></li>
+        <li><a sec:authorize=" hasRole('ROLE_USER') "href="/carrinho/listar">Ver Carrinho</a></li>
+        <li><a sec:authorize="!isAuthenticated()" href="/cliente/cadastrar">Fazer Cadastro</a></li>
+        <li><a sec:authorize="!isAuthenticated()" href="/login">Logar</a></li>
+        <li><a sec:authorize="isAuthenticated()" href="/logout">Logout</a></li>
+      </ul>
+    </div>
+  </nav>
+
+
+<form th:object ="${prato}"  method = "post"  action="/gerente/salvar" enctype = "multipart/form-data">
+
+	<div class="alert alert-success" role="alert" th:if="${!#strings.isEmpty(mensagem)}">
+			<span th:text="${mensagem}"></span>
+	</div>
+		
+	<div class="alert alert-danger" role="alert" th:if="${#fields.hasAnyErrors()}">
+			<div th:each="detailedError : ${#fields.detailedErrors()}">
+				<span th:text="${detailedError.message}"></span>
+			</div>
+	</div>
+
+
+    <input type ="hidden" th:field = "*{codigo}">
+ 	<div class="form-row">
+	    <div class="col">
+	    	<b>	Nome do prato</b> 
+	    	<br>
+		     <input type="text" class="form-control" placeholder="Nome do prato"  th:field = "*{nome}">
+		</div>
+		
+	    <div class="col">
+	    	<b>	Preço do prato</b> 
+	    	<br>
+		    <input type="text" class="form-control" placeholder="Preço do prato" th:field ="*{preco}">
+		</div>
+   </div>
+	
+	<div class="form-group">
+    	 <label for="exampleFormControlFile1">Selecione uma imagem:</label>
+   		 <input type="file" name = "imagem" class="form-control-file" id="exampleFormControlFile1">
+    </div>
+	
+  
+    <div class="col-auto">
+      <button type="submit" class="btn btn-secondary">Cadastrar</button>
+    </div>
+    
+ </form>
+ <br>
+ 
+  <a href="/gerente/listar"><button class ="btn btn-secondary float-right">Listar Pratos</button></a>
+	<a href="/pedido/listar"><button class ="btn btn-secondary float-left">Ir para listagem de pedidos</button></a>
+	
+
+
+<script src = "/js/materialize.min.js"></script>
+
+
+</body>
+</html>
